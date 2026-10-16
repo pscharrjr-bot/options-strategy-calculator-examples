@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Options Strategy Calculator Examples: CSP, Iron Condor, PMCC, Rolls</title>
+<meta name="description" content="Worked examples for the Options Strategy Calculator on Apify: max profit, max loss, breakevens, ROC and probability of profit. Educational, not advice.">
+<style>body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}pre{background:#f4f4f4;padding:1rem;overflow:auto;border-radius:6px}.d{background:#fff4e0;border-left:4px solid #f0a000;padding:.6rem 1rem}a.b{display:inline-block;background:#1a5cff;color:#fff;padding:.6rem 1rem;border-radius:6px;text-decoration:none}</style></head><body>
+<h1>Options Strategy Calculator: Examples</h1>
+<p class="d"><strong>Educational, not advice.</strong> These are pure-math examples on prices you supply. No data feed is used and nothing here recommends a trade.</p>
+<p>Calculate max profit, max loss, breakevens, return on capital (raw and annualized), and Black-Scholes probability of profit for cash-secured puts, covered calls and the wheel, vertical spreads, iron condors, PMCCs, and rolls.</p>
+<p><a class="b" href="https://apify.com/xprm-llc/options-strategy-calculator">Run it on Apify Store →</a></p>
+<p>All examples: underlying $100, 30 DTE, IV 30%, 1 contract.</p>
+<h2>Cash-secured put</h2><pre>{"strategy":"cash_secured_put","underlyingPrice":100,"dte":30,"impliedVolatility":30,"putStrike":95,"putPremium":1.5}</pre>
+<p>Max profit $150 · max loss $9,350 · breakeven $93.50 · ROC 1.58% (19.21% annualized) · POP ≈ 77%.</p>
+<h2>Iron condor</h2><pre>{"strategy":"iron_condor","underlyingPrice":100,"dte":30,"impliedVolatility":30,
+ "longPutStrike":85,"longPutPremium":0.5,"shortPutStrike":90,"shortPutPremium":1.2,
+ "shortCallStrike":110,"shortCallPremium":1.1,"longCallStrike":115,"longCallPremium":0.4}</pre>
+<p>Credit $1.40 · max profit $140 · max loss $360 · breakevens $88.60 / $111.40 · ROC 38.9%.</p>
+<h2>Poor man's covered call (PMCC)</h2><pre>{"strategy":"pmcc","underlyingPrice":100,"dte":30,"impliedVolatility":30,
+ "longCallStrike":80,"longCallPremium":23,"longCallDte":365,"shortCallStrike":110,"shortCallPremium":1.5}</pre>
+<p>Net debit $21.50 (max loss $2,150). Setup valid (110 &gt; 80 + 23). Max profit and breakeven are estimated at short-call expiry.</p>
+<h2>Roll a short put</h2><pre>{"strategy":"roll","optionType":"put","underlyingPrice":100,"dte":45,"impliedVolatility":30,
+ "oldStrike":95,"newStrike":90,"closeCost":3,"newPremium":3.5,"originalPremium":1.5}</pre>
+<p>Net credit $0.50 · total premium $2.00 · new breakeven $88.00.</p>
+<h2>Sample output row (CSP)</h2><pre>{
+  "index": 0, "ok": true, "strategy": "cash_secured_put",
+  "netPremiumPerShare": 1.5, "netPremiumType": "credit",
+  "maxProfit": 150, "maxLoss": 9350, "breakevens": [93.5],
+  "capitalRequired": 9500, "returnOnCapitalPct": 1.58, "annualizedReturnPct": 19.21,
+  "probabilityOfProfitPct": 76.99, "probabilityAssignedPct": 20.02,
+  "warnings": [], "disclaimer": "Educational, not advice. ..."
+}</pre>
+<p class="d">Educational, not advice. Model results ignore early assignment, dividends, fees, slippage, and IV changes.</p>
+</body></html>
